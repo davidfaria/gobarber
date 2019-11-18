@@ -24,14 +24,9 @@ class Cache {
   }
 
   async invalidatePrefix(prefix) {
-    console.log('PREEEFIXX: ', `cache:${prefix}:*`);
     const keys = await this.redis.keys(`cache:${prefix}:*`);
 
-    console.log('kkkkkkeeeeeeeyyyyysssss: ', keys);
-
     const keysWithouPrefix = keys.map(key => key.replace('cache:', ''));
-
-    console.log('KEYYYYYYYYYYYYYYYYYYYYYYYYY: ', keysWithouPrefix);
 
     return this.redis.del(keysWithouPrefix);
   }
