@@ -43,6 +43,7 @@ if (process.env.NODE_ENV === 'production') {
     res.json({
       name: 'Api',
       version: '1.0.3',
+      mode: process.env.NODE_ENV,
     });
   });
   routes.post(
