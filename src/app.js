@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import './bootstrap';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -17,14 +17,14 @@ import './database';
 class App {
   constructor() {
     this.server = express();
-    // Sentry.init(sentryConfig);
+    Sentry.init(sentryConfig);
     this.middlewares();
     this.routes();
     this.exceptionHandler();
   }
 
   middlewares() {
-    // this.server.use(Sentry.Handlers.requestHandler());
+    this.server.use(Sentry.Handlers.requestHandler());
     this.server.use(express.json());
     this.server.use(helmet());
 
@@ -57,7 +57,7 @@ class App {
 
   routes() {
     this.server.use(routes);
-    // this.server.use(Sentry.Handlers.errorHandler());
+    this.server.use(Sentry.Handlers.errorHandler());
   }
 
   exceptionHandler() {

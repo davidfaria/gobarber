@@ -30,26 +30,31 @@ import validadeAppointmentStore from './app/validators/AppointmentStore';
 // Variables
 const routes = new Router();
 const upload = multer(multerConfig);
-const bruteStore = new BruteRedis({
-  host: process.env.HOST,
-  port: process.env.PORT,
-});
 
-const bruteForce = new Brute(bruteStore);
-
-routes.get('/', async (req, res) => {
-  res.json({
-    name: 'Api',
-    version: '1.0.3',
+if (process.env.NODE_ENV === 'production') {
+  const bruteStore = new BruteRedis({
+    host: process.env.HOST,
+    port: process.env.PORT,
   });
-});
 
-routes.post(
-  '/sessions',
-  bruteForce.prevent,
-  validadeSessionStore,
-  SessionController.store
-);
+  const bruteForce = new Brute(bruteStore);
+
+  routes.get('/', async (req, res) => {
+    res.json({
+      name: 'Api',
+      version: '1.0.3',
+    });
+  });
+  routes.post(
+    '/sessions',
+    bruteForce.prevent,
+    validadeSessionStore,
+    SessionController.store
+  );
+} else {
+  routes.post('/sessions', validadeSessionStore, SessionController.store);
+}
+
 routes.post('/users', validadeUserStore, UserController.store);
 
 routes.use(authMiddleware);

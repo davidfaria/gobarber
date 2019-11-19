@@ -2,10 +2,12 @@ import Redis from 'ioredis';
 
 class Cache {
   constructor() {
+    this.PREFIX = process.env.NODE_ENV === 'test' ? 'cache-test:' : 'cache:';
+
     this.redis = new Redis({
       host: process.env.REDIS_HOST,
       port: process.env.REDIS_PORT,
-      keyPrefix: 'cache:',
+      keyPrefix: this.PREFIX,
     });
   }
 
@@ -24,9 +26,9 @@ class Cache {
   }
 
   async invalidatePrefix(prefix) {
-    const keys = await this.redis.keys(`cache:${prefix}:*`);
+    const keys = await this.redis.keys(`${this.PREFIX}${prefix}:*`);
 
-    const keysWithouPrefix = keys.map(key => key.replace('cache:', ''));
+    const keysWithouPrefix = keys.map(key => key.replace(`${this.PREFIX}`, ''));
 
     return this.redis.del(keysWithouPrefix);
   }
