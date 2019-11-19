@@ -12,7 +12,9 @@ const models = [User, File, Appointment];
 class Database {
   constructor() {
     this.init();
-    this.mongo();
+    if (process.env.NODE_ENV !== 'test') {
+      this.mongo();
+    }
   }
 
   init() {
