@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'production') {
   routes.get('/', async (req, res) => {
     res.json({
       name: 'Api',
-      version: '1.0.3',
+      version: '1.0.0',
       mode: process.env.NODE_ENV,
     });
   });
