@@ -1,6 +1,7 @@
 import app from './app';
 
-const PORT = 3010;
-app.listen(PORT, () => {
-  console.log(`Server up! port: ${PORT}`);
+const PORT = process.env.PORT;
+const APP_NAME = process.env.APP_NAME;
+app.server.listen(PORT, () => {
+  console.log(`${APP_NAME} up! port: ${PORT}`);
 });
