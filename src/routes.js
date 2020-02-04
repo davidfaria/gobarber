@@ -56,6 +56,14 @@ const upload = multer(multerConfig);
 //   routes.post('/sessions', validadeSessionStore, SessionController.store);
 // }
 
+routes.get('/', async (req, res) => {
+  res.json({
+    name: 'Api',
+    version: '1.0.0',
+    mode: process.env.NODE_ENV,
+  });
+});
+
 routes.post('/sessions', validadeSessionStore, SessionController.store);
 routes.post('/users', validadeUserStore, UserController.store);
 
